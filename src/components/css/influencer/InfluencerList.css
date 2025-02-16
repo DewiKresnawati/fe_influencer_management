@@ -1,0 +1,87 @@
+.home-section {
+  background-color: #FFC300;
+  height: 100vh; /* Tinggi memenuhi layar */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home-content {
+  text-align: center;
+  height: auto; /* Sesuaikan tinggi konten */
+  margin: 0 10%; /* Menambahkan margin kiri dan kanan */
+}
+
+.text-dark {
+  color: #000 !important;
+}
+
+.text-start {
+  text-align: left !important;
+}
+
+.bg-white-rounded {
+  background-color: white;
+  border-radius: 8px; /* Sudut tumpul */
+  padding: 10px; /* Padding untuk ruang di sekitar teks */
+  margin-bottom: 15px; /* Margin bawah untuk memberi jarak antar elemen */
+}
+
+.custom-border-radius {
+  border-radius: 12px; /* Sesuaikan nilai sesuai kebutuhan */
+}
+
+.custom-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px; /* Sesuaikan nilai sesuai kebutuhan */
+  object-fit: cover;
+}
+
+.content-type {
+  font-size: 1rem; /* Sesuaikan ukuran font */
+  color: gray;
+}
+
+.creator-name {
+  font-size: 1.25rem; /* Sesuaikan ukuran font */
+  font-weight: bold;
+}
+
+.platform-name {
+  font-size: 1rem; /* Sesuaikan ukuran font */
+  color: gray;
+}
+
+.btn-book-now {
+  background-color: transparent;
+  border: 1px solid blue;
+  padding: none;
+  width: 100%;
+}
+
+.jenis {
+  border-radius: 8px;
+  padding: 5px;
+  color: #fff;
+}
+
+.medsos {
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card {
+  background-color: white !important; /* Pastikan latar belakang kartu berwarna putih */
+  color: #000; /* Warna teks hitam */
+}
+
+.btn-primary {
+  background-color: blue !important; /* Warna tombol biru */
+  border: none !important;
+}
+
+.btn-primary:hover {
+  background-color: darkblue !important; /* Warna tombol saat di-hover */
+}

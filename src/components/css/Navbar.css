@@ -1,0 +1,33 @@
+.navbar-brand {
+  margin-right: 50px; /* Adjust the margin as needed */
+}
+
+.nav-link-custom {
+  position: relative;
+  margin-right: 20px; /* Adjust the margin as needed */
+  font-size: 20px;
+}
+
+.nav-link-custom::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0; /* Adjusted to make the line closer to the text */
+  left: 0;
+  background-color: white;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.gap {
+    gap: 40px;
+}
+
+.nav-link-custom:hover::after,
+.nav-link-custom:focus::after,
+.nav-link-custom.active::after {
+  visibility: visible;
+  width: 100%;
+}

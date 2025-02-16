@@ -1,0 +1,43 @@
+.review-section.landing-page-review {
+  margin-top: 50px; /* Adjust the value as needed */
+}
+
+.review-section {
+  background-color: rgba(137, 159, 197, 0); /* Warna biru gelap dengan transparansi */
+  padding: 40px 0;
+}
+
+.review-container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  padding: 20px;
+  border-radius: 16px;
+  background-color: #002855; /* Warna biru medium */
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.review-item {
+  display: flex;
+  align-items: center;
+  color: white;
+  gap: 10px;
+}
+
+.review-icon img {
+  width: 60px; /* Ukuran ikon */
+  height: 60px;
+  margin-bottom: 15px;
+}
+
+.review-number {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.review-label {
+  font-size: 1rem;
+  font-weight: 500;
+}

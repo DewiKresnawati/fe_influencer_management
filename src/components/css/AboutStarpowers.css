@@ -1,0 +1,39 @@
+.tentang {
+    gap: 30px;
+}
+
+.tentang h2 {
+    font-size: 70px;
+}
+
+.tentang h3 {
+    font-size: 40px;
+}
+
+.tentang p {
+    font-size: 20px;
+}
+
+.btn-glow {
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s;
+}
+
+.btn-glow::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: rgba(132, 228, 239, 0.827);
+    z-index: -1;
+    filter: blur(10px);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.btn-glow:hover::before {
+    opacity: 1;
+}

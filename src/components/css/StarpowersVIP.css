@@ -1,0 +1,102 @@
+.custom-border-radius {
+  border-radius: 12px; /* Adjust the value as needed */
+}
+
+.btn-influence {
+  background-color: blue;
+  color: white;
+  display: block;
+  margin: 0 auto;
+  transition: transform 0.3s ease; /* Add transition for smooth scaling */
+}
+
+.btn-influence:hover {
+  background-color: blue; /* Ensure background color stays the same */
+  color: white; /* Ensure text color stays the same */
+  transform: scale(1.05); /* Scale up the button slightly */
+}
+
+.starpowers-vip h2 {
+  font-size: 2.5rem; /* Adjust size as needed */
+  font-weight: bold;
+}
+
+.content-type {
+  font-size: 1rem; /* Adjust size as needed */
+  color: gray;
+}
+
+.creator-name {
+  font-size: 1.25rem; /* Adjust size as needed */
+  font-weight: bold;
+}
+
+.platform-name {
+  font-size: 1rem; /* Adjust size as needed */
+  color: gray;
+}
+
+.btn-book-now {
+  background-color: transparent;
+  color: blue;
+  border: 1px solid blue;
+  padding: none;
+  width: 100%;
+}
+
+.jenis {
+  background-color: blue;
+  border-radius: 8px;
+  padding: 5px;
+  color: #fff;
+}
+
+.medsos {
+  color: #333;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.starpowers-vip {
+  background-color: #001A46;
+}
+
+.card {
+  background-color: #142B47;
+  color: #ffffff;
+  border: none;
+}
+
+.card-body {
+  color: #ffffff;
+}
+
+.btn-book-now {
+  background-color: #003E87;
+  color: #ffffff;
+  border: none;
+}
+
+.btn-book-now:hover {
+  background-color: #002855;
+}
+
+.modal-content {
+  background-color: #0D1B2A;
+  color: #ffffff;
+}
+
+.modal-header, .modal-footer {
+  border: none;
+}
+
+.modal-title {
+  color: #ffffff;
+}
+
+.custom-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px; /* Adjust the value as needed */
+  object-fit: cover;
+}

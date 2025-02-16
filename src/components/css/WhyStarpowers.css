@@ -1,0 +1,50 @@
+.why-starpowers {
+  background-size: cover;
+  background-position: center;
+}
+
+.quote {
+  background: rgb(255, 255, 255);
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 10px;
+  position: relative;
+}
+
+.quote i {
+  font-size: 30px;
+  color: #001D3D;
+  padding: 5px; /* Tambahkan padding untuk memberikan ruang di sekitar ikon */
+}
+
+.quote p {
+  font-size: 18px;
+  color: #001D3D;
+  margin: 10px 0;
+}
+
+.quote .fas.fa-quote-left {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: #ffffff; /* Tambahkan background putih untuk ikon */
+  border-radius: 50%; /* Buat border menjadi lingkaran */
+  padding: 5px; /* Tambahkan padding untuk memberikan ruang di sekitar ikon */
+}
+
+.quote .fas.fa-quote-right {
+  position: absolute;
+  bottom: -10px;
+  right: -10px;
+  background: #ffffff; /* Tambahkan background putih untuk ikon */
+  border-radius: 50%; /* Buat border menjadi lingkaran */
+  padding: 5px; /* Tambahkan padding untuk memberikan ruang di sekitar ikon */
+}
+
+.row h2 {
+  font-size: 70px;
+}
+
+.row p {
+  font-size: 20px;
+}

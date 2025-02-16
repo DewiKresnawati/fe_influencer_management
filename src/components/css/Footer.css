@@ -1,0 +1,12 @@
+.footer {
+  background-color: white; /* Warna latar belakang footer */
+  color: black; /* Warna teks footer */
+}
+
+.footer .nav-link {
+  color: black; /* Warna teks link di footer */
+}
+
+.footer .nav-link:hover {
+  color: #ffc107; /* Warna teks link saat di-hover */
+}

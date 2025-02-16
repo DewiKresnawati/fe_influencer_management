@@ -1,0 +1,27 @@
+.navbar-transparent {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.nav-link-custom {
+  color: white !important;
+}
+
+.nav-link-custom:hover {
+  color: #ffc107 !important; /* Warna saat di-hover */
+}
+
+.navbar-brand img {
+  height: 40px; /* Sesuaikan ukuran logo */
+}
+
+.btn-outline-light {
+  border-color: white;
+  color: white;
+}
+
+.btn-outline-light:hover {
+  background-color: white;
+  color: #001A46; /* Warna teks saat tombol di-hover */
+}

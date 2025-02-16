@@ -1,0 +1,80 @@
+.hero-section {
+  background-color: #001A46; /* Warna biru gelap */
+  color: white;
+  padding: 50px 0;
+  height: 100vh; /* Tinggi memenuhi layar */
+  display: flex;
+  align-items: center; /* Vertikal align tengah */
+}
+
+
+.hero{
+  height: 70vh;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.hero-description {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  width: 50%;
+}
+
+.hero-search {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn-brand {
+  background-color: #002855; /* Warna biru lebih terang */
+  color: white;
+  border: none;
+}
+
+.btn-influencer {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-promo {
+  background-color: #003E87; /* Warna biru medium */
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  margin-left: auto;
+  width: 50%;
+  height: 100px;
+}
+
+.btn-promo:hover {
+  transform: scale(1.1);
+}
