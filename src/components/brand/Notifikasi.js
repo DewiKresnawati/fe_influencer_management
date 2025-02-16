@@ -4,19 +4,28 @@ import axios from 'axios';
 
 function Notifikasi() {
   const [notifications, setNotifications] = useState([]);
-
+  
   useEffect(() => {
-    // Fetch notifications from API
-    axios.get('http://localhost/star-1/backend/brand/notifications.php')
-      .then(response => {
+    // Ambil brand_id dari localStorage
+    const brandId = localStorage.getItem("brand_id");
+
+    if (!brandId) {
+      console.error("Brand ID tidak ditemukan di localStorage");
+      return;
+    }
+
+    // Fetch notifications berdasarkan brand_id
+    axios
+      .get(`http://localhost/star-1/backend/brand/notifications.php?brand_id=${brandId}`)
+      .then((response) => {
         if (Array.isArray(response.data)) {
           setNotifications(response.data);
         } else {
-          console.error('Unexpected response data:', response.data);
+          console.error("Unexpected response data:", response.data);
         }
       })
-      .catch(error => {
-        console.error('There was an error fetching the notifications!', error);
+      .catch((error) => {
+        console.error("There was an error fetching the notifications!", error);
       });
   }, []);
 
@@ -27,7 +36,9 @@ function Notifikasi() {
       case 'rejected':
         return { color: 'red' };
       case 'pending':
-        return { color: 'orange' };
+        return { color: 'orange' }; 
+      case 'Completed':
+        return { color: 'black' };
       default:
         return {};
     }

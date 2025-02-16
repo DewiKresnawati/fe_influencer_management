@@ -120,54 +120,58 @@ function Marketplace() {
     })
     .filter(Boolean);
 
-  const handleSaveChanges = () => {
-    const serviceId = services.find(
-      (serv) => serv.service_name === service
-    )?.id;
-
-    if (!serviceId) {
-      console.error("Service not found!");
-      return;
-    }
-
-    const brandId = localStorage.getItem("brand_id"); // Ambil brand_id dari localStorage
-
-    if (!brandId) {
-      console.error("Brand ID not found in localStorage!");
-      return;
-    }
-
-    const newCampaign = {
-      name: campaignName,
-      service_id: serviceId,
-      influencers: selectedInfluencers.map((influencer) => influencer.id),
-      start_date: startDate,
-      end_date: endDate,
-      proposal_deadline: proposalDeadline,
-      brief: brief,
-      brand_id: brandId, // ✅ Tambahkan brand_id
-    };
-    console.log("Data yang dikirim ke backend:", newCampaign);
-    axios
-      .post(
-        "http://localhost/star-1/backend/brand/marketplace.php",
-        newCampaign
-      )
-      .then((response) => {
-        console.log("Response dari server:", response.data); // Log response dari server
-        if (response.data.success) {
-          setStep(5); // Set step ke 5 jika sukses
-        } else {
-          console.error(
-            "There was an error creating the campaign!",
-            response.data.error
-          );
-        }
-      })
-      .catch((error) => {
-        console.error("There was an error creating the campaign!", error);
-      });
-  };
+    const handleSaveChanges = () => {
+      const serviceId = services.find((serv) => serv.service_name === service)?.id;
+    
+      if (!serviceId) {
+        console.error("Service not found!");
+        return;
+      }
+    
+      const brandId = localStorage.getItem("brand_id"); // Ambil brand_id dari localStorage
+      if (!brandId) {
+        console.error("Brand ID not found in localStorage!");
+        return;
+      }
+    
+      // Data untuk membuat pembayaran di database
+      const paymentData = {
+        brand_id: brandId,
+        service_id: serviceId,
+      };
+    
+      console.log("Mengirim data ke backend untuk membuat pembayaran:", paymentData);
+    
+      // Step 1: Simpan data pembayaran ke database
+      axios
+        .post("http://localhost/star-1/influence-be/midtrans/payment.php", paymentData)
+        .then((response) => {
+          console.log("Response dari backend:", response.data);
+          if (response.data.success && response.data.order_id) {
+            const orderId = response.data.order_id;
+    
+            // Step 2: Kirim order_id ke Midtrans
+            return axios.post(
+              "http://localhost/star-1/influence-be/midtrans/payment.php",
+              { order_id: orderId }
+            );
+          } else {
+            throw new Error("Gagal membuat data pembayaran!");
+          }
+        })
+        .then((midtransResponse) => {
+          console.log("Response dari Midtrans:", midtransResponse.data);
+          if (midtransResponse.data.payment_url) {
+            // ✅ Redirect ke halaman pembayaran Midtrans
+            window.location.href = midtransResponse.data.payment_url;
+          } else {
+            console.error("Gagal mendapatkan payment URL dari Midtrans!");
+          }
+        })
+        .catch((error) => {
+          console.error("Terjadi kesalahan saat memproses pembayaran!", error);
+        });
+    };    
 
   const handlePayment = () => {
     setShowPaymentModal(true);
