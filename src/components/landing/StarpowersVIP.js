@@ -15,7 +15,7 @@ function StarpowersVIP() {
 
   const fetchInfluencers = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/influencers/');
+      const response = await axios.get('http://localhost/star-1/backend/signinfluencer.php');
       setInfluencers(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error("There was an error fetching the influencers!", error);
@@ -62,7 +62,7 @@ function StarpowersVIP() {
                         className="btn btn-book-now"
                         onClick={() => handleShow(influencer)}
                       >
-                        Book Now
+                        Show Detail
                       </button>
                     </div>
                   </div>

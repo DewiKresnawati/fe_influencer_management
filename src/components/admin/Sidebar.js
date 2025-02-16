@@ -38,7 +38,7 @@ function Sidebar() {
         <Link to="/admin/dashboard/vip" style={linkStyle}>Starpower VIP</Link>
         <Link to="/admin/dashboard/articles" style={linkStyle}>Articles</Link>
         <Link to="/admin/dashboard/faq" style={linkStyle}>FAQ</Link>
-        <Link to="/admin/dashboard/bank-account" style={linkStyle}>Bank Account</Link> 
+        {/* <Link to="/admin/dashboard/bank-account" style={linkStyle}>Bank Account</Link>  */}
       </Nav>
     </div>
   );
