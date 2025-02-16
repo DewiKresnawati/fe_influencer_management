@@ -25,7 +25,7 @@ function EditPassword({ show, handleClose }) {
 
     try {
       const influencerId = localStorage.getItem('influencer_id');
-      const response = await axios.post('http://localhost/star-1/backend/changePassword.php', {
+      const response = await axios.post('https://mesindigital.xyz/influence-be/changePassword.php', {
         influencer_id: influencerId,
         oldPassword,
         newPassword,

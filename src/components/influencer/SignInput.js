@@ -26,7 +26,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost/star-1/backend/login.php', formData);
+      const response = await axios.post('https://mesindigital.xyz/influence-be/login.php', formData);
       if (response.data.success) {
         localStorage.setItem('influencer_id', response.data.influencer_id);
         setShowModal(true);

@@ -13,7 +13,7 @@ function FaqSect() {
 
   const fetchFaqs = async () => {
     try {
-      const response = await axios.get(`http://localhost/star-1/backend/faq.php?category=${selectedCategory}`);
+      const response = await axios.get(`https://mesindigital.xyz/influence-be/faq.php?category=${selectedCategory}`);
       setFaqData((prevData) => ({ ...prevData, [selectedCategory]: response.data }));
     } catch (error) {
       console.error("There was an error fetching the FAQs!", error);

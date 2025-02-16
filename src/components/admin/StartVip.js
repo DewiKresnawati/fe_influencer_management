@@ -14,7 +14,7 @@ function StartVip() {
   useEffect(() => {
     // Fetch influencers from API
     axios
-      .get("http://localhost:8080/influencers/")
+      .get("https://mesindigital.xyz/influence-be/signinfluencer.php")
       .then((response) => {
         setInfluencers(response.data);
         // Assuming the response contains chart data

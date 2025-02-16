@@ -24,7 +24,7 @@ function InfluencerList({ filter }) {
   const fetchInfluencers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost/star-1/backend/signinfluencer.php"
+        "https://mesindigital.xyz/influence-be/signinfluencer.php"
       );
       setInfluencers(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
@@ -171,7 +171,7 @@ function InfluencerList({ filter }) {
                     >
                       <Card.Img
                         variant="top"
-                        src={`http://localhost/star-1/backend/${influencer.profile_picture}`}
+                        src={`https://mesindigital.xyz/influence-be/${influencer.profile_picture}`}
                         alt={influencer.full_name}
                         className="p-3 custom-border-radius"
                       />
@@ -206,7 +206,7 @@ function InfluencerList({ filter }) {
                               className="btn btn-book-now"
                               onClick={() => handleShow(influencer)}
                             >
-                              Book Now
+                              Detail
                             </Button>
                           </div>
                         </div>
@@ -233,7 +233,7 @@ function InfluencerList({ filter }) {
               <Row>
                 <Col md={5} className="text-center">
                   <Image
-                    src={`http://localhost/star-1/backend/${selectedInfluencer.profile_picture}`}
+                    src={`https://mesindigital.xyz/influence-be/${selectedInfluencer.profile_picture}`}
                     className="mb-3 custom-image"
                   />
                 </Col>

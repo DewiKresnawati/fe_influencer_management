@@ -15,7 +15,7 @@ function StarpowersVIP() {
 
   const fetchInfluencers = async () => {
     try {
-      const response = await axios.get('http://localhost/star-1/backend/signinfluencer.php');
+      const response = await axios.get('https://mesindigital.xyz/influence-be/signinfluencer.php');
       setInfluencers(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error("There was an error fetching the influencers!", error);
@@ -37,7 +37,7 @@ function StarpowersVIP() {
             <div className="col-md-4" key={influencer.id}>
               <div className="card mb-4" style={{ backgroundColor: 'white', borderRadius: '12px' }}>
                 <img
-                  src={`http://localhost/star-1/backend/${influencer.profile_picture}`}
+                  src={`https://mesindigital.xyz/influence-be/${influencer.profile_picture}`}
                   alt="Influencer"
                   className="card-img-top p-3 custom-border-radius"
                 />
@@ -83,7 +83,7 @@ function StarpowersVIP() {
               <Row>
                 <Col md={5} className="text-center">
                   <Image
-                    src={`http://localhost/star-1/backend/${selectedInfluencer.profile_picture}`}
+                    src={`https://mesindigital.xyz/influence-be/${selectedInfluencer.profile_picture}`}
                     className="mb-3 custom-image"
                   />
                 </Col>

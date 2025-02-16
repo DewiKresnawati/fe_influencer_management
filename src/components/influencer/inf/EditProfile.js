@@ -33,7 +33,7 @@ function EditProfile({ show, handleClose, influencerId }) {
     const fetchProfileData = async () => {
       console.log('Fetching profile data for influencerId:', storedInfluencerId);
       try {
-        const response = await axios.get(`http://localhost/star-1/backend/influencerProfile.php?id=${storedInfluencerId}`);
+        const response = await axios.get(`https://mesindigital.xyz/influence-be/influencerProfile.php?id=${storedInfluencerId}`);
         console.log('Fetched profile data:', response.data);
         setProfileData(response.data);
       } catch (error) {
@@ -91,7 +91,7 @@ function EditProfile({ show, handleClose, influencerId }) {
     }
 
     try {
-      const response = await axios.put('http://localhost/star-1/backend/influencerProfile.php', formData, {
+      const response = await axios.put('https://mesindigital.xyz/influence-be/influencerProfile.php', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -121,7 +121,7 @@ function EditProfile({ show, handleClose, influencerId }) {
         {success && <Alert variant="success">{success}</Alert>}
         {profileData.profile_picture && (
           <div className="text-center mb-3">
-            <img src={`http://localhost/star-1/backend/${profileData.profile_picture}`} alt="Profile" style={{ width: '150px', borderRadius: '50%' }} />
+            <img src={`https://mesindigital.xyz/influence-be/${profileData.profile_picture}`} alt="Profile" style={{ width: '150px', borderRadius: '50%' }} />
           </div>
         )}
         <Form>

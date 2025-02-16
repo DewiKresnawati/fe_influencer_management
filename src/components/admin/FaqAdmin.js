@@ -14,7 +14,7 @@ function FaqAdmin() {
 
   const fetchFaqs = async () => {
     try {
-      const response = await axios.get(`http://localhost/star-1/backend/faq.php?category=${selectedCategory}`);
+      const response = await axios.get(`https://mesindigital.xyz/influence-be/faq.php?category=${selectedCategory}`);
       setFaqData((prevData) => ({ ...prevData, [selectedCategory]: response.data }));
     } catch (error) {
       console.error("There was an error fetching the FAQs!", error);
@@ -28,7 +28,7 @@ function FaqAdmin() {
   const handleAddFaq = async () => {
     try {
       const newFaq = { category: selectedCategory, question: newQuestion, answer: newAnswer };
-      await axios.post('http://localhost/star-1/backend/faq.php', newFaq);
+      await axios.post('https://mesindigital.xyz/influence-be/faq.php', newFaq);
       fetchFaqs();
       setNewQuestion('');
       setNewAnswer('');
@@ -39,7 +39,7 @@ function FaqAdmin() {
 
   const handleDeleteFaq = async (id) => {
     try {
-      await axios.delete('http://localhost/star-1/backend/faq.php', { data: { id } });
+      await axios.delete('https://mesindigital.xyz/influence-be/faq.php', { data: { id } });
       fetchFaqs();
     } catch (error) {
       console.error("There was an error deleting the FAQ!", error);

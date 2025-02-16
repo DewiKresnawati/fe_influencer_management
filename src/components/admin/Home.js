@@ -141,7 +141,7 @@ function Home() {
   const handleTransfer = async (transaction) => {
     const amountToTransfer = transaction.price * 0.9;
     try {
-      const response = await axios.get(`http://localhost/star-1/backend/getInfluencerBankAccounts.php?influencer=${transaction.influencer}`);
+      const response = await axios.get(`https://mesindigital.xyz/influence-be/getInfluencerBankAccounts.php?influencer=${transaction.influencer}`);
       setBankAccounts(response.data);
       setSelectedTransaction({ ...transaction, amountToTransfer });
       setShowModal(true);

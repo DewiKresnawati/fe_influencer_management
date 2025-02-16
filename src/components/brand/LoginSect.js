@@ -25,7 +25,7 @@ function LoginSect() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost/star-1/backend/brand/register.php', { ...formData, action: 'login' })
+    axios.post('https://mesindigital.xyz/influence-be/brand/register.php', { ...formData, action: 'login' })
       .then(response => {
         if (response.data.success) {
           console.log('Login successful:', response.data);

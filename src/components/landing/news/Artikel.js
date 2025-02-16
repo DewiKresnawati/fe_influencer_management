@@ -9,7 +9,7 @@ function Artikel() {
   useEffect(() => {
     const fetchArticles = async () => {
       try {
-        const response = await axios.get('http://localhost/star-1/backend/artikel.php');
+        const response = await axios.get('https://mesindigital.xyz/influence-be/artikel.php');
         setArticles(response.data);
       } catch (error) {
         console.error("There was an error fetching the articles!", error);

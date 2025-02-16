@@ -31,7 +31,7 @@ function Marketplace() {
   useEffect(() => {
     axios
       .get(
-        "http://localhost/star-1/backend/brand/marketplace.php?action=services"
+        "https://mesindigital.xyz/influence-be/brand/marketplace.php?action=services"
       )
       .then((response) => {
         setServices(response.data);
@@ -41,7 +41,7 @@ function Marketplace() {
       });
     // Fetch influencers from API
     axios
-      .get("http://localhost/star-1/backend/influencerProfile.php")
+      .get("https://mesindigital.xyz/influence-be/influencerProfile.php")
       .then((response) => {
         setInfluencers(response.data);
       })
@@ -52,7 +52,7 @@ function Marketplace() {
     // Fetch ongoing campaigns from API
     axios
       .get(
-        "http://localhost/star-1/backend/brand/marketplace.php?action=ongoing_campaigns"
+        "https://mesindigital.xyz/influence-be/brand/marketplace.php?action=ongoing_campaigns"
       )
       .then((response) => {
         setOngoingCampaigns(response.data);
@@ -66,7 +66,7 @@ function Marketplace() {
 
     axios
       .get(
-        "http://localhost/star-1/backend/brand/marketplace.php?action=campaign_history"
+        "https://mesindigital.xyz/influence-be/brand/marketplace.php?action=campaign_history"
       )
       .then((response) => {
         console.log("Response Data:", response.data); // Debugging
@@ -144,7 +144,7 @@ function Marketplace() {
     
       // Step 1: Simpan data pembayaran ke database
       axios
-        .post("http://localhost/star-1/influence-be/midtrans/payment.php", paymentData)
+        .post("https://mesindigital.xyz/influence-be/midtrans/payment.php", paymentData)
         .then((response) => {
           console.log("Response dari backend:", response.data);
           if (response.data.success && response.data.order_id) {
@@ -152,7 +152,7 @@ function Marketplace() {
     
             // Step 2: Kirim order_id ke Midtrans
             return axios.post(
-              "http://localhost/star-1/influence-be/midtrans/payment.php",
+              "https://mesindigital.xyz/influence-be/midtrans/payment.php",
               { order_id: orderId }
             );
           } else {
@@ -334,7 +334,7 @@ function Marketplace() {
                   >
                     <Card.Img
                       variant="top"
-                      src={`http://localhost/star-1/backend/${influencer.profile_picture}`}
+                      src={`https://mesindigital.xyz/influence-be/${influencer.profile_picture}`}
                       alt={influencer.full_name}
                       className="p-3 custom-border-radius"
                     />

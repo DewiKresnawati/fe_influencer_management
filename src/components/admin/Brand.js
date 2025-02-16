@@ -76,7 +76,7 @@ function Brand() {
 
   useEffect(() => {
     // Fetch brands from API
-    axios.get('http://localhost:8080/brands/')
+    axios.get('https://mesindigital.xyz/influence-be/admin/get_brands.php')
       .then(response => {
         setBrands(response.data);
       })

@@ -20,7 +20,7 @@ function EditService({ show, handleClose }) {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get('http://localhost/star-1/backend/SetService.php');
+        const response = await axios.get('https://mesindigital.xyz/influence-be/SetService.php');
         console.log('Fetched services:', response.data.services); // Log the fetched services
         setServices(response.data.services);
       } catch (error) {
@@ -51,7 +51,7 @@ function EditService({ show, handleClose }) {
   const addService = async () => {
     try {
       const influencerId = localStorage.getItem('influencer_id');
-      const response = await axios.post('http://localhost/star-1/backend/SetService.php', {
+      const response = await axios.post('https://mesindigital.xyz/influence-be/SetService.php', {
         action: 'create',
         influencer_id: influencerId,
         serviceName: newService.name,
@@ -73,7 +73,7 @@ function EditService({ show, handleClose }) {
   const editService = async (id) => {
     try {
       const service = services.find(service => service.id === id);
-      const response = await axios.post('http://localhost/star-1/backend/SetService.php', {
+      const response = await axios.post('https://mesindigital.xyz/influence-be/SetService.php', {
         action: 'update',
         id: service.id,
         serviceName: service.name,
@@ -94,7 +94,7 @@ function EditService({ show, handleClose }) {
 
   const deleteService = async (id) => {
     try {
-      const response = await axios.post('http://localhost/star-1/backend/SetService.php', {
+      const response = await axios.post('https://mesindigital.xyz/influence-be/SetService.php', {
         action: 'delete',
         id,
       });

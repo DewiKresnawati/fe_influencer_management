@@ -32,7 +32,7 @@ function Influencer() {
 
   const fetchInfluencers = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/influencers/");
+      const response = await axios.get("https://mesindigital.xyz/influence-be/signinfluencer.php");
       setInfluencers(response.data);
     } catch (error) {
       console.error("Terjadi kesalahan saat mengambil data!", error);
@@ -254,7 +254,7 @@ function Influencer() {
               <Row>
                 <Col md={5} className="text-center">
                   <Image
-                    src={`http://localhost/star-1/backend/${selectedInfluencer.profile_picture}`}
+                    src={`https://mesindigital.xyz/influence-be/${selectedInfluencer.profile_picture}`}
                     className="mb-3 custom-image"
                   />
                 </Col>

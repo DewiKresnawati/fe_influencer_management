@@ -88,7 +88,7 @@ function SignUp() {
         for (const key in formData) {
           formDataToSend.append(key, formData[key]);
         }
-        const response = await axios.post('http://localhost/star-1/backend/signinfluencer.php', formDataToSend, {
+        const response = await axios.post('https://mesindigital.xyz/influence-be/signinfluencer.php', formDataToSend, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },

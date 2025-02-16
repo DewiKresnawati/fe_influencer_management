@@ -67,7 +67,7 @@ function SignSect() {
     // Kirim data ke backend PHP 
     const dataToSend = { ...formData, action: 'register' };
     console.log('Data to send:', dataToSend); // Log data yang akan dikirim
-    axios.post('http://localhost/star-1/backend/brand/register.php', JSON.stringify(dataToSend), {
+    axios.post('https://mesindigital.xyz/influence-be/brand/register.php', JSON.stringify(dataToSend), {
       headers: {
         'Content-Type': 'application/json'
       }

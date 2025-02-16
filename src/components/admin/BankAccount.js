@@ -18,7 +18,7 @@ function BankAccount() {
 
   const fetchBankAccounts = async () => {
     try {
-      const response = await axios.get('http://localhost/star-1/backend/bankAccount.php');
+      const response = await axios.get('https://mesindigital.xyz/influence-be/bankAccount.php');
       setBankAccounts(response.data);
     } catch (error) {
       console.error('Terjadi kesalahan saat mengambil data!', error);
@@ -34,10 +34,10 @@ function BankAccount() {
     e.preventDefault();
     try {
       if (isEditing) {
-        await axios.put('http://localhost/star-1/backend/bankAccount.php', formData);
+        await axios.put('https://mesindigital.xyz/influence-be/bankAccount.php', formData);
         alert('Detail rekening bank berhasil diperbarui!');
       } else {
-        await axios.post('http://localhost/star-1/backend/bankAccount.php', formData);
+        await axios.post('https://mesindigital.xyz/influence-be/bankAccount.php', formData);
         alert('Detail rekening bank berhasil disubmit!');
       }
       setFormData({ id: '', bankType: '', accountNumber: '', accountHolder: '' });
@@ -55,7 +55,7 @@ function BankAccount() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost/star-1/backend/bankAccount.php?id=${id}`);
+      await axios.delete(`https://mesindigital.xyz/influence-be/bankAccount.php?id=${id}`);
       alert('Detail rekening bank berhasil dihapus!');
       fetchBankAccounts();
     } catch (error) {

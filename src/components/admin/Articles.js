@@ -15,7 +15,7 @@ function Articles() {
 
   const fetchArticles = async () => {
     try {
-      const response = await axios.get('http://localhost/star-1/backend/artikel.php');
+      const response = await axios.get('https://mesindigital.xyz/influence-be/artikel.php');
       let data = response.data;
 
       // Check if response.data is not an array
@@ -54,7 +54,7 @@ function Articles() {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost/star-1/backend/artikel.php`, { data: { id } });
+    await axios.delete(`https://mesindigital.xyz/influence-be/artikel.php`, { data: { id } });
     fetchArticles();
   };
 
@@ -76,9 +76,9 @@ function Articles() {
 
     if (form.id) {
       formData.append('id', form.id);
-      await axios.put('http://localhost/star-1/backend/artikel.php', formData);
+      await axios.put('https://mesindigital.xyz/influence-be/artikel.php', formData);
     } else {
-      await axios.post('http://localhost/star-1/backend/artikel.php', formData);
+      await axios.post('https://mesindigital.xyz/influence-be/artikel.php', formData);
     }
     setIsEditing(false);
     fetchArticles();
@@ -161,7 +161,7 @@ function Articles() {
                       <td>{article.title}</td>
                       <td>{article.excerpt}</td>
                       <td>{article.content}</td>
-                      <td><img src={`http://localhost/star-1/starweb/${article.image}`} alt={article.title} style={{ width: '100px' }} /></td>
+                      <td><img src={`https://mesindigital.xyz/influence-be/${article.image}`} alt={article.title} style={{ width: '100px' }} /></td>
                       <td>
                         <Button variant="warning" onClick={() => handleEdit(article)}>Edit</Button>{' '}
                         <Button variant="danger" onClick={() => handleDelete(article.id)}>Delete</Button>

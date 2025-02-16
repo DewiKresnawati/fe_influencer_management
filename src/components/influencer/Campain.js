@@ -15,7 +15,7 @@ function Campain() {
     // Fetch campaigns from API
     axios
       .get(
-        "http://localhost/star-1/backend/brand/marketplace.php?action=campaigns"
+        "https://mesindigital.xyz/influence-be/brand/marketplace.php?action=campaigns"
       )
       .then((response) => {
         setCampaigns(response.data);
@@ -26,7 +26,7 @@ function Campain() {
 
     // Fetch approved campaigns from API
     axios
-      .get("http://localhost/star-1/backend/approved_campaigns.php")
+      .get("https://mesindigital.xyz/influence-be/approved_campaigns.php")
       .then((response) => {
         setApprovedCampaigns(response.data);
       })
@@ -37,7 +37,7 @@ function Campain() {
         );
       });
 
-    axios.get("http://localhost/star-1/backend/fetch_completed_campaigns.php")
+    axios.get("https://mesindigital.xyz/influence-be/fetch_completed_campaigns.php")
       .then((response) => {
         if (response.data.success) {
           setCompletedCampaigns(response.data.data);
@@ -51,7 +51,7 @@ function Campain() {
       });
 
     axios
-      .get("http://localhost/star-1/backend/fetch_proof.php")
+      .get("https://mesindigital.xyz/influence-be/fetch_proof.php")
       .then((response) => {
         setProofs(response.data);
       })
@@ -60,7 +60,7 @@ function Campain() {
       });
     // Fetch services from API
     axios
-      .get("http://localhost/star-1/backend/SetService.php")
+      .get("https://mesindigital.xyz/influence-be/SetService.php")
       .then((response) => {
         setServices(response.data.services);
       })
@@ -77,7 +77,7 @@ function Campain() {
       formData.append("campaign_id", campaignId);
 
       axios
-        .post("http://localhost/star-1/backend/upload_proof.php", formData)
+        .post("https://mesindigital.xyz/influence-be/upload_proof.php", formData)
         .then((response) => {
           if (response.data.success) {
             setProofs((prev) => ({
@@ -96,7 +96,7 @@ function Campain() {
   const handleComplete = (campaignId) => {
     axios
       .post(
-        "http://localhost/star-1/backend/complete_campaign.php",
+        "https://mesindigital.xyz/influence-be/complete_campaign.php",
         JSON.stringify({ campaign_id: campaignId }),
         { headers: { "Content-Type": "application/json" } }
       )
@@ -119,7 +119,7 @@ function Campain() {
 
   const handleApprove = (campaignId) => {
     axios
-      .post("http://localhost/star-1/backend/brand/marketplace.php", {
+      .post("https://mesindigital.xyz/influence-be/brand/marketplace.php", {
         action: "approve",
         campaign_id: campaignId,
       })
@@ -147,7 +147,7 @@ function Campain() {
 
   const handleReject = (campaignId) => {
     axios
-      .post("http://localhost/star-1/backend/brand/marketplace.php", {
+      .post("https://mesindigital.xyz/influence-be/brand/marketplace.php", {
         action: "reject",
         campaign_id: campaignId,
       })
@@ -317,7 +317,7 @@ function Campain() {
                   <Col>
                     {proofs[campaign.id] ? (
                       <img
-                        src={`http://localhost/star-1/backend/${
+                        src={`https://mesindigital.xyz/influence-be/${
                           proofs[campaign.id]
                         }`}
                         alt="Bukti"

@@ -28,7 +28,7 @@ function AkunBrand() {
   useEffect(() => {
     if (brandId) {
       // Fetch profile data from API
-      axios.get(`http://localhost/star-1/backend/brand/brand.php?brand_id=${brandId}`)
+      axios.get(`https://mesindigital.xyz/influence-be/brand/brand.php?brand_id=${brandId}`)
         .then(response => {
           setProfileData(response.data);
         })
@@ -55,7 +55,7 @@ function AkunBrand() {
   };
 
   const handleSaveProfile = () => {
-    axios.put('http://localhost/star-1/backend/brand/brand.php', { ...profileData, brand_id: brandId })
+    axios.put('https://mesindigital.xyz/influence-be/brand/brand.php', { ...profileData, brand_id: brandId })
       .then(response => {
         setShowEditSuccess(true);
         setShowProfileModal(false);
