@@ -120,58 +120,66 @@ function Marketplace() {
     })
     .filter(Boolean);
 
-    const handleSaveChanges = () => {
-      const serviceId = services.find((serv) => serv.service_name === service)?.id;
-    
-      if (!serviceId) {
-        console.error("Service not found!");
-        return;
-      }
-    
-      const brandId = localStorage.getItem("brand_id"); // Ambil brand_id dari localStorage
-      if (!brandId) {
-        console.error("Brand ID not found in localStorage!");
-        return;
-      }
-    
-      // Data untuk membuat pembayaran di database
-      const paymentData = {
-        brand_id: brandId,
-        service_id: serviceId,
-      };
-    
-      console.log("Mengirim data ke backend untuk membuat pembayaran:", paymentData);
-    
-      // Step 1: Simpan data pembayaran ke database
-      axios
-        .post("https://mesindigital.xyz/influence-be/midtrans/payment.php", paymentData)
-        .then((response) => {
-          console.log("Response dari backend:", response.data);
-          if (response.data.success && response.data.order_id) {
-            const orderId = response.data.order_id;
-    
-            // Step 2: Kirim order_id ke Midtrans
-            return axios.post(
-              "https://mesindigital.xyz/influence-be/midtrans/payment.php",
-              { order_id: orderId }
-            );
-          } else {
-            throw new Error("Gagal membuat data pembayaran!");
-          }
-        })
-        .then((midtransResponse) => {
-          console.log("Response dari Midtrans:", midtransResponse.data);
-          if (midtransResponse.data.payment_url) {
-            // ✅ Redirect ke halaman pembayaran Midtrans
-            window.location.href = midtransResponse.data.payment_url;
-          } else {
-            console.error("Gagal mendapatkan payment URL dari Midtrans!");
-          }
-        })
-        .catch((error) => {
-          console.error("Terjadi kesalahan saat memproses pembayaran!", error);
-        });
-    };    
+  const handleSaveChanges = () => {
+    const serviceId = services.find(
+      (serv) => serv.service_name === service
+    )?.id;
+    const influencerData = filteredInfluencers.find(
+      (influencer) => influencer.serviceDetails.service_name === service
+    );
+    const influencerId = influencerData?.id;
+
+    if (!serviceId) {
+      console.error("Service not found!");
+      return;
+    }
+
+    const brandId = localStorage.getItem("brand_id"); // Ambil brand_id dari localStorage
+    if (!brandId) {
+      console.error("Brand ID not found in localStorage!");
+      return;
+    }
+
+    if (!influencerId) {
+      console.error("Influencer ID not found in service data!");
+      return;
+    }
+
+    // Data untuk membuat pembayaran di database
+    const paymentData = {
+      brand_id: brandId,
+      service_id: serviceId,
+      influencer_id: influencerId,
+    };
+
+    console.log(
+      "Mengirim data ke backend untuk membuat pembayaran:",
+      paymentData
+    );
+
+    // Step 1: Simpan data pembayaran ke database
+    axios
+      .post(
+        "https://mesindigital.xyz/influence-be/midtrans/payment.php",
+        paymentData
+      )
+      .then((response) => {
+        console.log("Response dari backend:", response.data);
+        if (response.data.order_id && response.data.payment_url) {
+          const paymentUrl = response.data.payment_url;
+
+          // ✅ Langsung buka halaman pembayaran di popup/tab baru
+          window.open(paymentUrl, "_blank");
+
+          return; // Tidak perlu request kedua jika sudah dapat payment_url
+        } else {
+          throw new Error("Gagal mendapatkan payment URL dari backend!");
+        }
+      })
+      .catch((error) => {
+        console.error("Terjadi kesalahan saat memproses pembayaran!", error);
+      });
+  };
 
   const handlePayment = () => {
     setShowPaymentModal(true);
@@ -250,8 +258,8 @@ function Marketplace() {
                 >
                   Riwayat Kampanye
                 </h3>
-                {campaignHistory.length > 0 ? (
-                  campaignHistory.map((campaign) => (
+                {filteredCampaigns.length > 0 ? (
+                  filteredCampaigns.map((campaign) => (
                     <tr key={campaign.id}>
                       <td>{campaign.id}</td>
                       <td>{campaign.name}</td>

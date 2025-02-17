@@ -16,7 +16,7 @@ function Notifikasi() {
 
     // Fetch notifications berdasarkan brand_id
     axios
-      .get(`http://localhost/star-1/backend/brand/notifications.php?brand_id=${brandId}`)
+      .get(`http://mesindigital.xyz/influence-be/brand/notifications.php?brand_id=${brandId}`)
       .then((response) => {
         if (Array.isArray(response.data)) {
           setNotifications(response.data);
