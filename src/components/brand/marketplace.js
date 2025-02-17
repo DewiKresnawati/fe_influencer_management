@@ -144,34 +144,24 @@ function Marketplace() {
     
       // Step 1: Simpan data pembayaran ke database
       axios
-        .post("https://mesindigital.xyz/influence-be/midtrans/payment.php", paymentData)
-        .then((response) => {
-          console.log("Response dari backend:", response.data);
-          if (response.data.success && response.data.order_id) {
-            const orderId = response.data.order_id;
-    
-            // Step 2: Kirim order_id ke Midtrans
-            return axios.post(
-              "https://mesindigital.xyz/influence-be/midtrans/payment.php",
-              { order_id: orderId }
-            );
-          } else {
-            throw new Error("Gagal membuat data pembayaran!");
-          }
-        })
-        .then((midtransResponse) => {
-          console.log("Response dari Midtrans:", midtransResponse.data);
-          if (midtransResponse.data.payment_url) {
-            // ✅ Redirect ke halaman pembayaran Midtrans
-            window.location.href = midtransResponse.data.payment_url;
-          } else {
-            console.error("Gagal mendapatkan payment URL dari Midtrans!");
-          }
-        })
-        .catch((error) => {
-          console.error("Terjadi kesalahan saat memproses pembayaran!", error);
-        });
-    };    
+  .post("https://mesindigital.xyz/influence-be/midtrans/payment.php", paymentData)
+  .then((response) => {
+    console.log("Response dari backend:", response.data);
+    if (response.data.order_id && response.data.payment_url) {
+      const paymentUrl = response.data.payment_url;
+
+      // ✅ Langsung buka halaman pembayaran di popup/tab baru
+      window.open(paymentUrl, "_blank");
+
+      return; // Tidak perlu request kedua jika sudah dapat payment_url
+    } else {
+      throw new Error("Gagal mendapatkan payment URL dari backend!");
+    }
+  })
+  .catch((error) => {
+    console.error("Terjadi kesalahan saat memproses pembayaran!", error);
+  });
+    }    
 
   const handlePayment = () => {
     setShowPaymentModal(true);
