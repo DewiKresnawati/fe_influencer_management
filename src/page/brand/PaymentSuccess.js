@@ -20,13 +20,17 @@ export default function PaymentSuccess() {
 
     const fetchPaymentStatus = async () => {
       try {
-        const response = await fetch(`http://mesindigital.xyz/midtrans/get_pay.php?order_id=${orderId}`);
+        const response = await fetch(
+          `https://mesindigital.xyz/midtrans/get_pay.php?order_id=${orderId}`
+        );
         const data = await response.json();
 
         if (response.ok) {
           setStatus(data);
         } else {
-          setError(data.error || "Terjadi kesalahan saat mengambil status pembayaran.");
+          setError(
+            data.error || "Terjadi kesalahan saat mengambil status pembayaran."
+          );
         }
       } catch (err) {
         setError("Gagal menghubungi server.");
@@ -52,14 +56,26 @@ export default function PaymentSuccess() {
                 ? "✅ Pembayaran Berhasil!"
                 : "❌ Pembayaran Gagal"}
             </h2>
-            <p><strong>Order ID:</strong> {status.order_id}</p>
-            <p><strong>Status Kode:</strong> {status.status_code}</p>
-            <p><strong>Status Transaksi:</strong> {status.transaction_status}</p>
+            <p>
+              <strong>Order ID:</strong> {status.order_id}
+            </p>
+            <p>
+              <strong>Status Kode:</strong> {status.status_code}
+            </p>
+            <p>
+              <strong>Status Transaksi:</strong> {status.transaction_status}
+            </p>
             <div style={styles.buttonContainer}>
-              <button onClick={() => navigate("/dashboard")} style={styles.buttonPrimary}>
+              <button
+                onClick={() => navigate("/dashboard")}
+                style={styles.buttonPrimary}
+              >
                 Kembali ke Dashboard
               </button>
-              <button onClick={() => navigate("/")} style={styles.buttonSecondary}>
+              <button
+                onClick={() => navigate("/")}
+                style={styles.buttonSecondary}
+              >
                 Beranda
               </button>
             </div>
@@ -120,4 +136,3 @@ const styles = {
     cursor: "pointer",
   },
 };
-
