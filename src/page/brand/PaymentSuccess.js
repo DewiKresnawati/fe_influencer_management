@@ -7,6 +7,8 @@ export default function PaymentSuccess() {
 
   // Ambil parameter dari URL
   const orderId = searchParams.get("order_id");
+  const statusCode = searchParams.get("status_code");
+  const transactionStatus = searchParams.get("transaction_status");
   const [status, setStatus] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -21,7 +23,7 @@ export default function PaymentSuccess() {
     const fetchPaymentStatus = async () => {
       try {
         const response = await fetch(
-          `https://mesindigital.xyz/influence-be/midtrans/get_pay.php?order_id=${orderId}`
+          `http://mesindigital.xyz/influence-be/midtrans/get_pay.php?order_id=${orderId}&status_code=${statusCode}&transaction_status=${transactionStatus}`
         );
         const data = await response.json();
 
