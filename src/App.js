@@ -23,6 +23,7 @@ import StartPage from "./page/brand/Start";
 import FormLoginBrand from "./page/brand/Login";
 import Sign from "./page/brand/Sign";
 import DashboardBrand from "./page/brand/Dashboard";
+import RedirectPayment from "./page/brand/PaymentSuccess";
 
 function App() {
   return (
