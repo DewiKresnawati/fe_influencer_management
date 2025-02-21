@@ -21,7 +21,7 @@ export default function PaymentSuccess() {
     const fetchPaymentStatus = async () => {
       try {
         const response = await fetch(
-          `https://mesindigital.xyz/midtrans/get_pay.php?order_id=${orderId}`
+          `https://mesindigital.xyz/influence-be/midtrans/get_pay.php?order_id=${orderId}`
         );
         const data = await response.json();
 
