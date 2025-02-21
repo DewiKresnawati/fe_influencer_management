@@ -155,15 +155,31 @@ function Home() {
       const response = await axios.get(
         `https://mesindigital.xyz/influence-be/influencerProfile.php?id=${influencerId}`
       );
+
       let bankData = [];
 
       if (Array.isArray(response.data.bank_accounts)) {
-        bankData = response.data.bank_accounts;
+        bankData = response.data.bank_accounts.map((bank) => ({
+          bank_account: bank.bank_account || "Tidak tersedia",
+          account_number: bank.account_number || "Tidak tersedia",
+          full_name: response.data.full_name || "Tidak tersedia",
+          email: response.data.email || "Tidak tersedia",
+          followers_count: response.data.followers_count || 0,
+          instagram_link: response.data.instagram_link || "",
+          influencer_category:
+            response.data.influencer_category || "Tidak tersedia",
+        }));
       } else if (response.data.bank_account && response.data.account_number) {
         bankData = [
           {
             bank_account: response.data.bank_account,
             account_number: response.data.account_number,
+            full_name: response.data.full_name || "Tidak tersedia",
+            email: response.data.email || "Tidak tersedia",
+            followers_count: response.data.followers_count || 0,
+            instagram_link: response.data.instagram_link || "",
+            influencer_category:
+              response.data.influencer_category || "Tidak tersedia",
           },
         ];
       } else {
@@ -314,7 +330,7 @@ function Home() {
                               : "primary"
                           }
                         >
-                          Lihat Rekening
+                          Lihat Details
                         </Button>
                       </td>
                     </tr>
@@ -359,7 +375,22 @@ function Home() {
             <ul className="list-group">
               {bankAccounts.map((bank, index) => (
                 <li key={index} className="list-group-item">
-                  <strong>{bank.bank_account}</strong> - {bank.account_number}
+                  <strong>Nama:</strong> {bank.full_name} <br />
+                  <strong>Email:</strong> {bank.email} <br />
+                  <strong>Followers:</strong> {bank.followers_count} <br />
+                  <strong>Instagram:</strong>{" "}
+                  <a
+                    href={bank.instagram_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {bank.instagram_link}
+                  </a>{" "}
+                  <br />
+                  <strong>Kategori:</strong> {bank.influencer_category} <br />
+                  <hr />
+                  <strong>Bank:</strong> {bank.bank_account} <br />
+                  <strong>Nomor Rekening:</strong> {bank.account_number}
                 </li>
               ))}
             </ul>

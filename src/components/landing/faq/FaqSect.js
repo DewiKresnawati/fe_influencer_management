@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import axios from "axios";
 
 function FaqSect() {
   const [faqData, setFaqData] = useState({ influencer: [], brand: [] });
-  const [selectedCategory, setSelectedCategory] = useState('influencer');
+  const [selectedCategory, setSelectedCategory] = useState("influencer");
   const [activeIndex, setActiveIndex] = useState(null);
 
   useEffect(() => {
@@ -13,8 +13,13 @@ function FaqSect() {
 
   const fetchFaqs = async () => {
     try {
-      const response = await axios.get(`https://mesindigital.xyz/influence-be/faq.php?category=${selectedCategory}`);
-      setFaqData((prevData) => ({ ...prevData, [selectedCategory]: response.data }));
+      const response = await axios.get(
+        `https://faqs-yudhifadilah3747-dxpcywml.leapcell.dev/faqs/category/${selectedCategory}`
+      );
+      setFaqData((prevData) => ({
+        ...prevData,
+        [selectedCategory]: response.data,
+      }));
     } catch (error) {
       console.error("There was an error fetching the FAQs!", error);
     }
@@ -30,61 +35,77 @@ function FaqSect() {
   };
 
   const buttonStyle = (isSelected) => ({
-    backgroundColor: isSelected ? '#FFC300' : 'transparent',
-    color: isSelected ? '#001D3D' : '#FFC300',
-    fontWeight: 'bold',
-    borderColor: '#FFC300',
-    width: '100%',
-    marginBottom: '10px',
+    backgroundColor: isSelected ? "#FFC300" : "transparent",
+    color: isSelected ? "#001D3D" : "#FFC300",
+    fontWeight: "bold",
+    borderColor: "#FFC300",
+    width: "100%",
+    marginBottom: "10px",
   });
 
   const buttonHoverStyle = {
-    backgroundColor: '#FFC300',
-    color: '#001D3D',
+    backgroundColor: "#FFC300",
+    color: "#001D3D",
   };
 
   return (
-    <section style={{ padding: '50px 0', backgroundColor: '#001D3D' }}>
+    <section style={{ padding: "50px 0", backgroundColor: "#001D3D" }}>
       <Container>
         <Row>
           <Col md={4}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+            >
               <Button
                 variant="outline-warning"
-                onClick={() => handleCategoryChange('influencer')}
-                style={buttonStyle(selectedCategory === 'influencer')}
+                onClick={() => handleCategoryChange("influencer")}
+                style={buttonStyle(selectedCategory === "influencer")}
                 onMouseEnter={(e) => (e.target.style = buttonHoverStyle)}
-                onMouseLeave={(e) => (e.target.style = buttonStyle(selectedCategory === 'influencer'))}
+                onMouseLeave={(e) =>
+                  (e.target.style = buttonStyle(
+                    selectedCategory === "influencer"
+                  ))
+                }
               >
                 Influencer
               </Button>
               <Button
                 variant="outline-warning"
-                onClick={() => handleCategoryChange('brand')}
-                style={buttonStyle(selectedCategory === 'brand')}
+                onClick={() => handleCategoryChange("brand")}
+                style={buttonStyle(selectedCategory === "brand")}
                 onMouseEnter={(e) => (e.target.style = buttonHoverStyle)}
-                onMouseLeave={(e) => (e.target.style = buttonStyle(selectedCategory === 'brand'))}
+                onMouseLeave={(e) =>
+                  (e.target.style = buttonStyle(selectedCategory === "brand"))
+                }
               >
                 Brand
               </Button>
             </div>
           </Col>
-          <Col md={8} style={{ backgroundColor: 'white', padding: '20px', borderRadius: '5px' }}>
-            <h3 style={{ color: '#001D3D', fontWeight: 'bold' }}>
-              {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
+          <Col
+            md={8}
+            style={{
+              backgroundColor: "white",
+              padding: "20px",
+              borderRadius: "5px",
+            }}
+          >
+            <h3 style={{ color: "#001D3D", fontWeight: "bold" }}>
+              {selectedCategory.charAt(0).toUpperCase() +
+                selectedCategory.slice(1)}
             </h3>
             {faqData[selectedCategory].map((faq, index) => (
-              <div key={index} style={{ marginBottom: '10px' }}>
+              <div key={index} style={{ marginBottom: "10px" }}>
                 <div
                   onClick={() => toggleAnswer(index)}
                   style={{
-                    cursor: 'pointer',
-                    backgroundColor: 'white',
-                    color: '#001D3D',
-                    padding: '10px',
-                    borderRadius: '5px',
-                    fontWeight: 'bold',
-                    border: '1px solid #FFC300',
+                    cursor: "pointer",
+                    backgroundColor: "white",
+                    color: "#001D3D",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    fontWeight: "bold",
+                    border: "1px solid #FFC300",
                   }}
                 >
                   {faq.question}
@@ -92,12 +113,12 @@ function FaqSect() {
                 {activeIndex === index && (
                   <div
                     style={{
-                      backgroundColor: 'white',
-                      color: '#001D3D',
-                      padding: '10px',
-                      border: '1px solid #FFC300',
-                      borderRadius: '5px',
-                      marginTop: '5px',
+                      backgroundColor: "white",
+                      color: "#001D3D",
+                      padding: "10px",
+                      border: "1px solid #FFC300",
+                      borderRadius: "5px",
+                      marginTop: "5px",
                     }}
                   >
                     {faq.answer}

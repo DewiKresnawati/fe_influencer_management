@@ -1,24 +1,24 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Container, Row, Col, Form, Table, Alert } from 'react-bootstrap';
-import { Chart } from 'chart.js';
-import axios from 'axios';
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { Container, Row, Col, Form, Table, Alert } from "react-bootstrap";
+import { Chart } from "chart.js";
+import axios from "axios";
 
 function Brand() {
   const brandChartRef = useRef(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState('');
-  const [timeRange, setTimeRange] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterType, setFilterType] = useState("");
+  const [timeRange, setTimeRange] = useState("all");
   const [brands, setBrands] = useState([]);
 
   const allTimeData = {
-    labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'],
+    labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni"],
     datasets: [
       {
-        label: 'Brands',
+        label: "Brands",
         data: [2, 3, 20, 5, 1, 4],
         fill: false,
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgba(255, 99, 132, 0.8)',
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.8)",
         borderWidth: 3,
         pointRadius: 5,
         pointHoverRadius: 7,
@@ -27,14 +27,14 @@ function Brand() {
   };
 
   const lastYearData = {
-    labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'],
+    labels: ["Januari", "Februari", "Maret", "April", "Mei", "Juni"],
     datasets: [
       {
-        label: 'Brands',
+        label: "Brands",
         data: [1, 2, 15, 4, 1, 3],
         fill: false,
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgba(255, 99, 132, 0.8)',
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.8)",
         borderWidth: 3,
         pointRadius: 5,
         pointHoverRadius: 7,
@@ -43,14 +43,14 @@ function Brand() {
   };
 
   const lastMonthData = {
-    labels: ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'],
+    labels: ["Minggu 1", "Minggu 2", "Minggu 3", "Minggu 4"],
     datasets: [
       {
-        label: 'Brands',
+        label: "Brands",
         data: [1, 2, 5, 3],
         fill: false,
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgba(255, 99, 132, 0.8)',
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.8)",
         borderWidth: 3,
         pointRadius: 5,
         pointHoverRadius: 7,
@@ -59,14 +59,14 @@ function Brand() {
   };
 
   const lastWeekData = {
-    labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+    labels: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
     datasets: [
       {
-        label: 'Brands',
+        label: "Brands",
         data: [1, 1, 1, 2, 1, 1, 1],
         fill: false,
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgba(255, 99, 132, 0.8)',
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.8)",
         borderWidth: 3,
         pointRadius: 5,
         pointHoverRadius: 7,
@@ -76,24 +76,25 @@ function Brand() {
 
   useEffect(() => {
     // Fetch brands from API
-    axios.get('https://mesindigital.xyz/influence-be/admin/get_brands.php')
-      .then(response => {
+    axios
+      .get("https://mesindigital.xyz/influence-be/admin/get_brands.php")
+      .then((response) => {
         setBrands(response.data);
       })
-      .catch(error => {
-        console.error('There was an error fetching the brands!', error);
+      .catch((error) => {
+        console.error("There was an error fetching the brands!", error);
       });
   }, []);
 
   const getDataByTimeRange = useCallback((range) => {
     switch (range) {
-      case 'week':
+      case "week":
         return lastWeekData;
-      case 'month':
+      case "month":
         return lastMonthData;
-      case 'year':
+      case "year":
         return lastYearData;
-      case 'all':
+      case "all":
       default:
         return allTimeData;
     }
@@ -101,18 +102,18 @@ function Brand() {
 
   useEffect(() => {
     const brandChart = new Chart(brandChartRef.current, {
-      type: 'line',
+      type: "line",
       data: getDataByTimeRange(timeRange),
       options: {
         scales: {
           x: {
             ticks: {
-              color: '#333',
+              color: "#333",
             },
           },
           y: {
             ticks: {
-              color: '#333',
+              color: "#333",
             },
           },
         },
@@ -125,16 +126,18 @@ function Brand() {
   }, [timeRange, getDataByTimeRange]);
 
   const containerStyle = {
-    backgroundColor: 'white',
-    padding: '20px',
-    borderRadius: '10px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: "white",
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
   };
 
   const filteredBrands = brands.filter((brand) => {
     return (
-      (filterType === '' || brand.type.toLowerCase().includes(filterType.toLowerCase())) &&
-      (searchTerm === '' || brand.name.toLowerCase().includes(searchTerm.toLowerCase()))
+      (filterType === "" ||
+        brand.type.toLowerCase().includes(filterType.toLowerCase())) &&
+      (searchTerm === "" ||
+        brand.name.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   });
 
@@ -187,20 +190,50 @@ function Brand() {
         <Col>
           <h3>Daftar Brand</h3>
           {filteredBrands.length > 0 ? (
-            <Table striped bordered hover>
+            <Table striped bordered hover responsive>
               <thead>
                 <tr>
+                  <th>ID</th>
+                  <th>Email</th>
                   <th>Nama Brand</th>
-                  <th>Tipe</th>
-                  <th>Pendapatan</th>
+                  <th>Nama PIC</th>
+                  <th>Telepon PIC</th>
+                  <th>Provinsi</th>
+                  <th>Kota</th>
+                  <th>Kode Referral</th>
+                  <th>Tanggal Dibuat</th>
+                  <th>Nama</th>
+                  <th>Telepon</th>
+                  <th>Alamat</th>
+                  <th>Gambar</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredBrands.map((brand, index) => (
                   <tr key={index}>
+                    <td>{brand.id}</td>
+                    <td>{brand.email}</td>
                     <td>{brand.brand_name}</td>
-                    <td>{brand.type}</td>
-                    <td>{brand.revenue}</td>
+                    <td>{brand.pic_name}</td>
+                    <td>{brand.pic_phone}</td>
+                    <td>{brand.province}</td>
+                    <td>{brand.city}</td>
+                    <td>{brand.referral_code || "-"}</td>
+                    <td>{brand.created_at}</td>
+                    <td>{brand.name || "-"}</td>
+                    <td>{brand.phone || "-"}</td>
+                    <td>{brand.address || "-"}</td>
+                    <td>
+                      {brand.image ? (
+                        <img
+                          src={brand.image}
+                          alt="Brand"
+                          style={{ width: "50px", height: "50px" }}
+                        />
+                      ) : (
+                        "-"
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -213,5 +246,4 @@ function Brand() {
     </Container>
   );
 }
-
 export default Brand;

@@ -12,42 +12,62 @@ function Campain() {
   const [proofs, setProofs] = useState({});
 
   useEffect(() => {
+    const influencerId = localStorage.getItem("influencer_id");
+    if (!influencerId) {
+      console.error("Influencer ID not found in localStorage");
+      return;
+    }
     // Fetch campaigns from API
+    // Fetch campaigns and filter based on influencer_id
     axios
       .get(
         "https://mesindigital.xyz/influence-be/brand/marketplace.php?action=campaigns"
       )
       .then((response) => {
-        setCampaigns(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the campaigns!", error);
-      });
-
-    // Fetch approved campaigns from API
-    axios
-      .get("https://mesindigital.xyz/influence-be/approved_campaigns.php")
-      .then((response) => {
-        setApprovedCampaigns(response.data);
-      })
-      .catch((error) => {
-        console.error(
-          "There was an error fetching the approved campaigns!",
-          error
+        const filteredData = response.data.filter(
+          (item) => item.influencer_id === influencerId
         );
+        setCampaigns(filteredData);
+      })
+      .catch((error) => {
+        console.error("Error fetching campaigns!", error);
       });
 
-    axios.get("https://mesindigital.xyz/influence-be/fetch_completed_campaigns.php")
+    axios
+      .get("https://mesindigital.xyz/influence-be/approved_campaigns.php", {
+        params: { influencer_id: localStorage.getItem("influencer_id") },
+      })
       .then((response) => {
         if (response.data.success) {
-          setCompletedCampaigns(response.data.data);
+          setApprovedCampaigns(response.data.data);
+        } else {
+          console.error(
+            "Tidak ada kampanye approved ditemukan:",
+            response.data.message
+          );
         }
       })
       .catch((error) => {
-        console.error(
-          "There was an error fetching the completed campaigns!",
-          error
-        );
+        console.error("Error fetching approved campaigns!", error);
+      });
+
+    // Fetch completed campaigns for specific influencer
+    axios
+      .get(
+        "https://mesindigital.xyz/influence-be/fetch_completed_campaigns.php",
+        {
+          params: { influencer_id: influencerId }, // Kirim influencer_id langsung ke API
+        }
+      )
+      .then((response) => {
+        if (response.data.success) {
+          setCompletedCampaigns(response.data.data); // Tidak perlu filter ulang
+        } else {
+          setCompletedCampaigns([]); // Set array kosong jika tidak ada data
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching completed campaigns!", error);
       });
 
     axios
@@ -77,7 +97,10 @@ function Campain() {
       formData.append("campaign_id", campaignId);
 
       axios
-        .post("https://mesindigital.xyz/influence-be/upload_proof.php", formData)
+        .post(
+          "https://mesindigital.xyz/influence-be/upload_proof.php",
+          formData
+        )
         .then((response) => {
           if (response.data.success) {
             setProofs((prev) => ({

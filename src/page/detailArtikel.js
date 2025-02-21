@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import NavigationBar from '../components/landing/Navbar';
-import Footer from '../components/landing/Footer';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { Container, Card, Spinner, Alert } from "react-bootstrap";
+import axios from "axios";
+import NavigationBar from "../components/landing/Navbar";
 
-function DetailArtikel() {
+function ArtikelDetail() {
   const { id } = useParams();
   const [article, setArticle] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await axios.get(`http://localhost/star-1/backend/artikel.php?id=${id}`);
+        const response = await axios.get(
+          `https://mesindigital.xyz/influence-be/artikel.php?id=${id}`
+        );
         setArticle(response.data);
       } catch (error) {
-        console.error("There was an error fetching the article!", error);
+        setError("Gagal mengambil data artikel");
+        console.error("Error fetching article:", error);
       } finally {
         setLoading(false);
       }
@@ -26,39 +30,39 @@ function DetailArtikel() {
 
   if (loading) {
     return (
-      <div>
-        <NavigationBar />
-        <div style={{ padding: '50px', textAlign: 'center', backgroundColor: 'white', color: '#001D3D', minHeight: '100vh' }}>
-          <h2>Loading...</h2>
-        </div>
-        <Footer />
-      </div>
+      <Container className="text-center mt-5">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </Container>
     );
   }
 
-  if (!article) {
+  if (error) {
     return (
-      <div>
-        <NavigationBar />
-        <div style={{ padding: '50px', textAlign: 'center', backgroundColor: 'white', color: '#001D3D', minHeight: '100vh' }}>
-          <h2>Article not found</h2>
-        </div>
-        <Footer />
-      </div>
+      <Container className="text-center mt-5">
+        <Alert variant="danger">{error}</Alert>
+      </Container>
     );
   }
 
   return (
     <div>
       <NavigationBar />
-      <div style={{ padding: '50px', backgroundColor: 'white', color: '#001D3D', minHeight: '100vh' }}>
-        <h1>{article.title}</h1>
-        <p>{article.content}</p>
-        {article.image && <img src={`http://localhost/star-1/starweb/${article.image}`} alt={article.title} style={{ width: '100%' }} />}
-      </div>
-      <Footer />
+      <Container className="mt-4">
+        <Card className="p-4">
+          <Card.Img variant="top" src={article.image} alt={article.title} />
+          <Card.Body>
+            <Card.Title>{article.title}</Card.Title>
+            <Card.Text>
+              <small className="text-muted">{article.date}</small>
+            </Card.Text>
+            <Card.Text>{article.content}</Card.Text>
+          </Card.Body>
+        </Card>
+      </Container>
     </div>
   );
 }
 
-export default DetailArtikel;
+export default ArtikelDetail;
