@@ -52,6 +52,7 @@ function App() {
         <Route path="/brand/formlogin" element={<FormLoginBrand />} />
         <Route path="/brand/signup" element={<Sign />} />
         <Route path="/brand/dashboard/*" element={<DashboardBrand />} />
+        <Route path="/brand/finishpayment/*" element={<RedirectPayment />} />
 
         {/* Tambahkan route lain di sini */}
       </Routes>
