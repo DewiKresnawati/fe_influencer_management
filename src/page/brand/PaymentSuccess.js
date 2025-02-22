@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function FinishPayment() {
   const [searchParams] = useSearchParams();
@@ -7,7 +8,11 @@ export default function FinishPayment() {
 
   const orderId = searchParams.get("order_id");
   const statusCode = searchParams.get("status_code");
-  const transactionStatus = searchParams.get("transaction_status");
+  let transactionStatus = searchParams.get("transaction_status");
+
+  if (transactionStatus) {
+    transactionStatus = transactionStatus.replace(/"/g, "");
+  }
 
   useEffect(() => {
     console.log("Order ID:", orderId);
@@ -19,11 +24,28 @@ export default function FinishPayment() {
       return;
     }
 
-    // Misalnya, redirect ke dashboard jika sukses
     if (transactionStatus === "settlement") {
-      navigate("/brand/dashboard/notifikasi");
+      Swal.fire({
+        icon: "success",
+        title: "Pembayaran Berhasil!",
+        text: "Anda akan diarahkan ke dashboard.",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      }).then(() => {
+        navigate("/brand/dashboard/notifikasi");
+      });
     } else {
-      navigate("/");
+      Swal.fire({
+        icon: "error",
+        title: "Pembayaran Gagal!",
+        text: "Anda akan diarahkan ke halaman utama.",
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      }).then(() => {
+        navigate("/");
+      });
     }
   }, [orderId, statusCode, transactionStatus, navigate]);
 
