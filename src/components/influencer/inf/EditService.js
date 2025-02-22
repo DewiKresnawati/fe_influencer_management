@@ -261,17 +261,7 @@ function EditService({ show, handleClose }) {
         </ListGroup>
         <h5 className="mt-4">Tambah Service Baru</h5>
         <Form>
-          {/* <Form.Group controlId="formNewServiceTemplate">
-            <Form.Label>Pilih Template Service</Form.Label>
-            <Form.Control as="select" onChange={handleTemplateChange}>
-              <option value="">Pilih Template</option>
-              {serviceTemplates.map((template, index) => (
-                <option key={index} value={template.name}>
-                  {template.name}
-                </option>
-              ))}
-            </Form.Control>
-          </Form.Group> */}
+          <Form.Group controlId="formNewServiceTemplate"></Form.Group>
           <Form.Group controlId="formNewServiceName">
             <Form.Label>Nama Service</Form.Label>
             <Form.Control

@@ -34,7 +34,7 @@ function Home() {
     const fetchTransactions = async () => {
       try {
         const response = await axios.get(
-          "ss://mesindigital.xyz/influence-be/midtrans/transaction.php"
+          "https://mesindigital.xyz/influence-be/midtrans/transaction.php"
         );
         setTransactions(response.data);
       } catch (err) {
@@ -153,7 +153,7 @@ function Home() {
 
     try {
       const response = await axios.get(
-        `ss://mesindigital.xyz/influence-be/influencerProfile.php?id=${influencerId}`
+        `https://mesindigital.xyz/influence-be/influencerProfile.php?id=${influencerId}`
       );
 
       let bankData = [];
