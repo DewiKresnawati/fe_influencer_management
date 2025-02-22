@@ -379,7 +379,9 @@ function Marketplace() {
                   >
                     <Card.Img
                       variant="top"
-                      src={`https://mesindigital.xyz/influence-be/uploads/${profile_picture}`}
+                      src={`https://mesindigital.xyz/influence-be/${encodeURIComponent(
+                        influencer.profile_picture
+                      )}`}
                       alt={influencer.full_name}
                       className="p-3 custom-border-radius"
                     />
