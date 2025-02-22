@@ -1,22 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {
-  ListGroup,
-  Button,
-  Spinner,
-  Row,
-  Col,
-  Card,
-  Modal,
-} from "react-bootstrap";
+import { Button, Spinner, Row, Col, Card, Modal } from "react-bootstrap";
 import axios from "axios";
 
 function Notifikasi() {
-  const [notifications, setNotifications] = useState([]);
-  const [services, setServices] = useState([]); // Menyimpan daftar service
   const [campaigns, setCampaigns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [paidCampaigns, setPaidCampaigns] = useState([]);
 
   useEffect(() => {
     const brandId = localStorage.getItem("brand_id");
@@ -26,7 +17,6 @@ function Notifikasi() {
       return;
     }
 
-    // Fetch ongoing campaigns
     axios
       .get(
         `https://mesindigital.xyz/influence-be/get_campaigns.php?brand_id=${brandId}`
@@ -36,56 +26,20 @@ function Notifikasi() {
         setLoading(false);
       })
       .catch((error) => {
-        console.error(
-          "There was an error fetching the ongoing campaigns!",
-          error
-        );
+        console.error("Error fetching campaigns!", error);
         setLoading(false);
-      });
-
-    // Fetch notifications based on brand_id
-    axios
-      .get(
-        `https://mesindigital.xyz/influence-be/brand/notifications.php?brand_id=${brandId}`
-      )
-      .then((response) => {
-        if (Array.isArray(response.data)) {
-          setNotifications(response.data);
-        } else {
-          console.error("Unexpected response data:", response.data);
-        }
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the notifications!", error);
-      });
-
-    // Fetch list of services
-    axios
-      .get(`https://mesindigital.xyz/influence-be/SetService.php`)
-      .then((response) => {
-        if (Array.isArray(response.data)) {
-          setServices(response.data);
-        } else {
-          console.error("Unexpected response data:", response.data);
-        }
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the services!", error);
       });
   }, []);
 
-  // Handle showing the payment modal
   const handleShowPaymentModal = (campaign) => {
     setSelectedCampaign(campaign);
     setShowPaymentModal(true);
   };
 
-  // Handle closing the payment modal
   const handleClosePaymentModal = () => {
     setShowPaymentModal(false);
   };
 
-  // Function to trigger payment
   const handlePayment = (campaign) => {
     const paymentData = {
       campaign_id: campaign.id,
@@ -94,9 +48,6 @@ function Notifikasi() {
       brand_id: localStorage.getItem("brand_id"),
     };
 
-    console.log("Mengirim data ke backend untuk pembayaran:", paymentData);
-
-    // Trigger payment action, e.g., open payment URL or trigger API
     axios
       .post(
         "https://mesindigital.xyz/influence-be/midtrans/payment.php",
@@ -105,29 +56,46 @@ function Notifikasi() {
       .then((response) => {
         if (response.data.order_id && response.data.payment_url) {
           window.open(response.data.payment_url, "_blank");
+
+          // Tunggu beberapa detik sebelum memperbarui status di database
+          setTimeout(() => {
+            axios
+              .post("https://mesindigital.xyz/influence-be/paid.php", {
+                campaign_id: campaign.id,
+              })
+              .then((updateResponse) => {
+                if (updateResponse.data.success) {
+                  setPaidCampaigns((prev) => [...prev, campaign.id]);
+
+                  // Perbarui status kampanye di UI
+                  setCampaigns((prevCampaigns) =>
+                    prevCampaigns.map((c) =>
+                      c.id === campaign.id
+                        ? { ...c, status: "Telah Dibayar" }
+                        : c
+                    )
+                  );
+                } else {
+                  console.error(
+                    "Gagal memperbarui status pembayaran di database."
+                  );
+                }
+              })
+              .catch((error) => {
+                console.error(
+                  "Error saat memperbarui status pembayaran:",
+                  error
+                );
+              });
+          }, 5000); // Tunggu 5 detik
         } else {
-          alert("Failed to get payment URL");
+          alert("Gagal mendapatkan URL pembayaran.");
         }
       })
       .catch((error) => {
-        console.error("Error processing payment", error);
+        console.error("Kesalahan pembayaran:", error);
+        alert("Terjadi kesalahan saat memproses pembayaran.");
       });
-  };
-
-  // Function to get status styling
-  const getStatusStyle = (status) => {
-    switch (status) {
-      case "approved":
-        return { color: "green" };
-      case "rejected":
-        return { color: "red" };
-      case "pending":
-        return { color: "orange" };
-      case "Completed":
-        return { color: "black" };
-      default:
-        return {};
-    }
   };
 
   return (
@@ -147,18 +115,18 @@ function Notifikasi() {
                 <Card style={{ margin: "10px 0" }}>
                   <Card.Body>
                     <Card.Title>{campaign.name}</Card.Title>
-                    <Card.Text style={getStatusStyle(campaign.status)}>
-                      Status: {campaign.status}
+                    <Card.Text>
+                      Status: <span>{campaign.status}</span>
                     </Card.Text>
-                    {/* Show "Bayar" button only if status is "approved" */}
-                    {campaign.status === "approved" && (
-                      <Button
-                        variant="success"
-                        onClick={() => handleShowPaymentModal(campaign)}
-                      >
-                        Bayar
-                      </Button>
-                    )}
+                    {campaign.status === "approved" &&
+                      !paidCampaigns.includes(campaign.id) && (
+                        <Button
+                          variant="success"
+                          onClick={() => handleShowPaymentModal(campaign)}
+                        >
+                          Bayar
+                        </Button>
+                      )}
                   </Card.Body>
                 </Card>
               </Col>
@@ -181,8 +149,11 @@ function Notifikasi() {
               <Button
                 variant="success"
                 onClick={() => handlePayment(selectedCampaign)}
+                disabled={paidCampaigns.includes(selectedCampaign.id)}
               >
-                Bayar Sekarang
+                {paidCampaigns.includes(selectedCampaign.id)
+                  ? "Sudah Dibayar"
+                  : "Bayar Sekarang"}
               </Button>
             </>
           )}
