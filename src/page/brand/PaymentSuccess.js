@@ -21,7 +21,7 @@ export default function FinishPayment() {
 
     // Misalnya, redirect ke dashboard jika sukses
     if (transactionStatus === "settlement") {
-      navigate("/brand/dashboard/");
+      navigate("/brand/dashboard/notifikasi");
     } else {
       navigate("/");
     }
