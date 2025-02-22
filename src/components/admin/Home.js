@@ -34,7 +34,7 @@ function Home() {
     const fetchTransactions = async () => {
       try {
         const response = await axios.get(
-          "https://mesindigital.xyz/influence-be/midtrans/transaction.php"
+          "ss://mesindigital.xyz/influence-be/midtrans/transaction.php"
         );
         setTransactions(response.data);
       } catch (err) {
@@ -153,7 +153,7 @@ function Home() {
 
     try {
       const response = await axios.get(
-        `https://mesindigital.xyz/influence-be/influencerProfile.php?id=${influencerId}`
+        `ss://mesindigital.xyz/influence-be/influencerProfile.php?id=${influencerId}`
       );
 
       let bankData = [];
@@ -217,7 +217,7 @@ function Home() {
 
     try {
       const response = await axios.put(
-        `http://mesindigital.xyz/influence-be/confirm_status.php?id=${selectedInfluencerId}`,
+        `https://mesindigital.xyz/influence-be/confirm_status.php?id=${selectedInfluencerId}`,
         new URLSearchParams({ confirm_status: "confirmed" }),
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
