@@ -134,7 +134,7 @@ function Marketplace() {
       return;
     }
 
-    const brandId = localStorage.getItem("brand_id"); // Ambil brand_id dari localStorage
+    const brandId = localStorage.getItem("brand_id");
     if (!brandId) {
       console.error("Brand ID not found in localStorage!");
       return;
@@ -145,39 +145,57 @@ function Marketplace() {
       return;
     }
 
-    // Data untuk membuat pembayaran di database
-    const paymentData = {
+    // **Langkah 1: Simpan kampanye ke database**
+    const campaignData = {
       brand_id: brandId,
+      campaign_name: campaignName,
       service_id: serviceId,
       influencer_id: influencerId,
+      start_date: startDate,
+      end_date: endDate,
+      proposal_deadline: proposalDeadline,
+      brief: brief,
     };
 
-    console.log(
-      "Mengirim data ke backend untuk membuat pembayaran:",
-      paymentData
-    );
-
-    // Step 1: Simpan data pembayaran ke database
     axios
       .post(
-        "https://mesindigital.xyz/influence-be/midtrans/payment.php",
-        paymentData
+        "https://mesindigital.xyz/influence-be/brand/marketplace.php",
+        campaignData
       )
       .then((response) => {
-        console.log("Response dari backend:", response.data);
-        if (response.data.order_id && response.data.payment_url) {
-          const paymentUrl = response.data.payment_url;
+        console.log("Campaign Created:", response.data);
+        if (!response.data.success || !response.data.campaign_id) {
+          throw new Error("Failed to create campaign!");
+        }
 
-          // ✅ Langsung buka halaman pembayaran di popup/tab baru
-          window.open(paymentUrl, "_blank");
+        const campaignId = response.data.campaign_id; // Ambil ID kampanye dari backend
 
-          return; // Tidak perlu request kedua jika sudah dapat payment_url
+        // **Langkah 2: Buat pembayaran dengan campaign_id**
+        const paymentData = {
+          brand_id: brandId,
+          service_id: serviceId,
+          influencer_id: influencerId,
+          campaign_id: campaignId, // Tambahkan ID kampanye di pembayaran
+        };
+
+        return axios.post(
+          "https://mesindigital.xyz/influence-be/midtrans/payment.php",
+          paymentData
+        );
+      })
+      .then((paymentResponse) => {
+        console.log("Payment Response:", paymentResponse.data);
+        if (paymentResponse.data.order_id && paymentResponse.data.payment_url) {
+          window.open(paymentResponse.data.payment_url, "_blank");
         } else {
           throw new Error("Gagal mendapatkan payment URL dari backend!");
         }
       })
       .catch((error) => {
-        console.error("Terjadi kesalahan saat memproses pembayaran!", error);
+        console.error(
+          "Terjadi kesalahan saat membuat kampanye atau pembayaran!",
+          error
+        );
       });
   };
 
