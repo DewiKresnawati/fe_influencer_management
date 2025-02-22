@@ -120,83 +120,80 @@ function Marketplace() {
     })
     .filter(Boolean);
 
-  const handleSaveChanges = () => {
-    const serviceId = services.find(
-      (serv) => serv.service_name === service
-    )?.id;
-    const influencerData = filteredInfluencers.find(
-      (influencer) => influencer.serviceDetails.service_name === service
-    );
-    const influencerId = influencerData?.id;
+  const handleSaveChanges = async () => {
+    try {
+      const serviceId = services.find(
+        (serv) => serv.service_name === service
+      )?.id;
+      const influencerData = filteredInfluencers.find(
+        (influencer) => influencer.serviceDetails.service_name === service
+      );
+      const influencerId = influencerData?.id;
+      const categoryId = categories.find((cat) => cat.name === category)?.id;
+      const brandId = localStorage.getItem("brand_id");
 
-    if (!serviceId) {
-      console.error("Service not found!");
-      return;
-    }
+      if (!serviceId) throw new Error("Service not found!");
+      if (!brandId) throw new Error("Brand ID not found in localStorage!");
+      if (!influencerId)
+        throw new Error("Influencer ID not found in service data!");
+      if (!categoryId) throw new Error("Category not found!");
 
-    const brandId = localStorage.getItem("brand_id");
-    if (!brandId) {
-      console.error("Brand ID not found in localStorage!");
-      return;
-    }
+      // Step 1: Simpan campaign ke database
+      const campaignData = {
+        name: campaignName,
+        category_id: categoryId,
+        influencers: [influencerId], // Sesuaikan format dengan backend
+        start_date: startDate,
+        end_date: endDate,
+        proposal_deadline: proposalDeadline,
+        brief: brief,
+      };
 
-    if (!influencerId) {
-      console.error("Influencer ID not found in service data!");
-      return;
-    }
+      console.log("Mengirim data campaign ke backend:", campaignData);
 
-    // **Langkah 1: Simpan kampanye ke database**
-    const campaignData = {
-      brand_id: brandId,
-      campaign_name: campaignName,
-      service_id: serviceId,
-      influencer_id: influencerId,
-      start_date: startDate,
-      end_date: endDate,
-      proposal_deadline: proposalDeadline,
-      brief: brief,
-    };
-
-    axios
-      .post(
-        "https://mesindigital.xyz/influence-be/brand/marketplace.php",
+      const campaignResponse = await axios.post(
+        "http://localhost/star-1/backend/brand/marketplace.php",
         campaignData
-      )
-      .then((response) => {
-        console.log("Campaign Created:", response.data);
-        if (!response.data.success || !response.data.campaign_id) {
-          throw new Error("Failed to create campaign!");
-        }
+      );
 
-        const campaignId = response.data.campaign_id; // Ambil ID kampanye dari backend
+      console.log("Response campaign:", campaignResponse.data);
 
-        // **Langkah 2: Buat pembayaran dengan campaign_id**
-        const paymentData = {
-          brand_id: brandId,
-          service_id: serviceId,
-          influencer_id: influencerId,
-          campaign_id: campaignId, // Tambahkan ID kampanye di pembayaran
-        };
-
-        return axios.post(
-          "https://mesindigital.xyz/influence-be/midtrans/payment.php",
-          paymentData
+      if (!campaignResponse.data.success) {
+        throw new Error(
+          "Gagal membuat campaign: " + campaignResponse.data.error
         );
-      })
-      .then((paymentResponse) => {
-        console.log("Payment Response:", paymentResponse.data);
-        if (paymentResponse.data.order_id && paymentResponse.data.payment_url) {
-          window.open(paymentResponse.data.payment_url, "_blank");
-        } else {
-          throw new Error("Gagal mendapatkan payment URL dari backend!");
-        }
-      })
-      .catch((error) => {
-        console.error(
-          "Terjadi kesalahan saat membuat kampanye atau pembayaran!",
-          error
-        );
-      });
+      }
+
+      const campaignId = campaignResponse.data.campaign_id; // Pastikan backend mengembalikan ID campaign
+
+      // Step 2: Simpan data pembayaran ke database
+      const paymentData = {
+        brand_id: brandId,
+        service_id: serviceId,
+        influencer_id: influencerId,
+        campaign_id: campaignId, // Tambahkan ID campaign jika diperlukan oleh backend
+      };
+
+      console.log("Mengirim data payment ke backend:", paymentData);
+
+      const paymentResponse = await axios.post(
+        "https://mesindigital.xyz/influence-be/midtrans/payment.php",
+        paymentData
+      );
+
+      console.log("Response payment:", paymentResponse.data);
+
+      if (paymentResponse.data.order_id && paymentResponse.data.payment_url) {
+        window.open(paymentResponse.data.payment_url, "_blank");
+      } else {
+        throw new Error("Gagal mendapatkan payment URL dari backend!");
+      }
+
+      // Step 3: Set step untuk menampilkan halaman menunggu jika diperlukan
+      setStep(5);
+    } catch (error) {
+      console.error("Terjadi kesalahan:", error.message);
+    }
   };
 
   const handlePayment = () => {
