@@ -9,14 +9,11 @@ export default function PaymentSuccess() {
   const orderId = searchParams.get("order_id");
   const statusCode = searchParams.get("status_code");
   const transactionStatus = searchParams.get("transaction_status");
-  const [status, setStatus] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (!orderId) {
       setError("Order ID tidak ditemukan.");
-      setLoading(false);
       return;
     }
 
@@ -27,8 +24,8 @@ export default function PaymentSuccess() {
         );
         const data = await response.json();
 
-        if (response.ok) {
-          setStatus(data);
+        if (response.ok && data.redirect_url) {
+          window.location.href = data.redirect_url; // Redirect ke URL dari backend
         } else {
           setError(
             data.error || "Terjadi kesalahan saat mengambil status pembayaran."
@@ -36,8 +33,6 @@ export default function PaymentSuccess() {
         }
       } catch (err) {
         setError("Gagal menghubungi server.");
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -47,41 +42,15 @@ export default function PaymentSuccess() {
   return (
     <div style={styles.container}>
       <div style={styles.card}>
-        {loading ? (
-          <p>Memeriksa status pembayaran...</p>
-        ) : error ? (
-          <p style={styles.error}>{error}</p>
-        ) : (
+        {error ? (
           <>
-            <h2 style={styles.title}>
-              {status.transaction_status === "success"
-                ? "✅ Pembayaran Berhasil!"
-                : "❌ Pembayaran Gagal"}
-            </h2>
-            <p>
-              <strong>Order ID:</strong> {status.order_id}
-            </p>
-            <p>
-              <strong>Status Kode:</strong> {status.status_code}
-            </p>
-            <p>
-              <strong>Status Transaksi:</strong> {status.transaction_status}
-            </p>
-            <div style={styles.buttonContainer}>
-              <button
-                onClick={() => navigate("/dashboard")}
-                style={styles.buttonPrimary}
-              >
-                Kembali ke Dashboard
-              </button>
-              <button
-                onClick={() => navigate("/")}
-                style={styles.buttonSecondary}
-              >
-                Beranda
-              </button>
-            </div>
+            <p style={styles.error}>{error}</p>
+            <button onClick={() => navigate("/")} style={styles.buttonPrimary}>
+              Kembali ke Beranda
+            </button>
           </>
+        ) : (
+          <p>Memproses pembayaran...</p>
         )}
       </div>
     </div>
@@ -107,19 +76,9 @@ const styles = {
     maxWidth: "400px",
     width: "100%",
   },
-  title: {
-    fontSize: "20px",
-    marginBottom: "15px",
-  },
   error: {
     color: "red",
     fontWeight: "bold",
-  },
-  buttonContainer: {
-    marginTop: "15px",
-    display: "flex",
-    justifyContent: "center",
-    gap: "10px",
   },
   buttonPrimary: {
     backgroundColor: "#007bff",
@@ -128,13 +87,6 @@ const styles = {
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
-  },
-  buttonSecondary: {
-    backgroundColor: "#555",
-    color: "#fff",
-    padding: "10px 15px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
+    marginTop: "15px",
   },
 };
